@@ -8,13 +8,15 @@ module ActiveModel
       end
 
       class HasMany
+
+
         def serialize_with_cancan
           return serialize_without_cancan unless authorize?
           associated_object.select {|item| find_serializable(item).can?(:read, item) }.map do |item|
             find_serializable(item).serializable_hash
           end
         end
-        alias_method_chain :serialize, :cancan
+        alias_method :serialize, :serialize_with_cancan
       end
 
       class HasOne
@@ -30,7 +32,7 @@ module ActiveModel
             nil
           end
         end
-        alias_method_chain :serialize, :cancan
+        alias_method :serialize, :serialize_with_cancan
       end
     end
   end

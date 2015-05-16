@@ -8,15 +8,27 @@ module ActiveModel
           class_attribute :cancan_actions
         end
 
-        def can
+        def abilities
           cancan_actions.inject({}) do |hash, action|
             hash[action] = send("can_#{action}?")
             hash
           end
         end
 
+          def tempik opts
+            Log.w :tempik_instance 
+          end
+
+
         module ClassMethods
+
+
+          def tempik opts
+            Log.w :tempik_class
+          end
+
           def abilities(*actions)
+             Log.w :abilites 
             self.cancan_actions = expand_cancan_actions(actions)
             cancan_actions.each do |action|
               method = "can_#{action}?".to_sym
@@ -26,7 +38,7 @@ module ActiveModel
                 end
               end
             end
-            attributes :can
+            attributes :abilities
           end
 
           private
