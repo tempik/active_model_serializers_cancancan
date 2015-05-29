@@ -15,20 +15,10 @@ module ActiveModel
           end
         end
 
-          def tempik opts
-            Log.w :tempik_instance 
-          end
-
 
         module ClassMethods
 
-
-          def tempik opts
-            Log.w :tempik_class
-          end
-
           def abilities(*actions)
-             Log.w :abilites 
             self.cancan_actions = expand_cancan_actions(actions)
             cancan_actions.each do |action|
               method = "can_#{action}?".to_sym
